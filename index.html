@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ігрове меню Brawl Stars">
+  <title>Brawl Stars - Меню</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #10131a;
+      --surface: #1e2634;
+      --surface-2: #263145;
+      --accent: #f4b400;
+      --text: #f4f4f6;
+      --muted: #9aa3b8;
+      --danger: #f25353;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at top, rgba(244, 180, 0, 0.15), transparent 35%),
+                  linear-gradient(180deg, #0f1220 0%, #090b14 100%);
+      color: var(--text);
+    }
+    .page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      padding: 2rem 1rem 3rem;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .title h1 {
+      font-size: clamp(2rem, 3vw, 3rem);
+      margin: 0;
+      letter-spacing: 0.04em;
+    }
+    .menu {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1.25rem 0 2rem;
+    }
+    .menu button {
+      border: none;
+      padding: 0.9rem 1.4rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      font-weight: 600;
+    }
+    .menu button.active,
+    .menu button:hover {
+      background: rgba(244, 180, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    .card {
+      width: min(780px, 100%);
+      background: rgba(20, 27, 42, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero {
+      display: grid;
+      gap: 1rem;
+      place-items: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .hero img {
+      width: 220px;
+      max-width: 100%;
+      border-radius: 24px;
+      border: 2px solid rgba(244, 180, 0, 0.3);
+      background: rgba(255,255,255,0.04);
+    }
+    .hero h2 {
+      margin: 1rem 0 0.5rem;
+      font-size: clamp(1.85rem, 2.5vw, 2.5rem);
+    }
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+    .section {
+      padding: 1.5rem 1.5rem 2rem;
+    }
+    .fighters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .fighter-card {
+      position: relative;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      text-align: center;
+      padding: 1rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .fighter-card img {
+      width: 100%;
+      max-height: 130px;
+      object-fit: contain;
+      margin-bottom: 0.75rem;
+    }
+    .fighter-card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.015em;
+    }
+    .fighter-card p {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .fighter-card.locked {
+      filter: grayscale(0.65);
+      opacity: 0.82;
+    }
+    .fighter-card.locked::after {
+      content: 'Заблоковано';
+      position: absolute;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+    }
+    .fighter-info {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      color: var(--text);
+    }
+    .fighter-info strong {
+      color: var(--accent);
+    }
+    .footer {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    @media (max-width: 560px) {
+      .hero img {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="title">
+      <h1>Brawl Stars — Ігрове меню</h1>
+      <p>Barley за замовчуванням, інші бійці доступны як заблоковані персонажі.</p>
+    </div>
+
+    <div class="menu">
+      <button class="active" data-view="home">Головне меню</button>
+      <button data-view="fighters">Бійці</button>
+    </div>
+
+    <div class="card" id="home-view">
+      <div class="hero">
+        <img src="barley_default_001.png" alt="Barley">
+        <h2>Barley</h2>
+        <p>Barley — ваш дефолтний персонаж. Інші бійці відображаються як заблоковані та чекають відкриття.</p>
+      </div>
+      <div class="section fighter-info">
+        <strong>Рівень персонажа:</strong>
+        <span>Дефолтний</span>
+        <strong>Режим:</strong>
+        <span>Меню вибору бійців</span>
+      </div>
+    </div>
+
+    <div class="card" id="fighters-view" style="display:none;">
+      <div class="section">
+        <h2>Сцена бійців</h2>
+        <p>Оберіть бійця. Усі персонажі, крім Barley, заблоковані. Скіни не додаються.</p>
+      </div>
+      <div class="section fighters-grid" id="fighters-grid"></div>
+    </div>
+
+    <div class="footer">© 2026 Beta-brawl-ua</div>
+  </div>
+
+  <script>
+    const fighters = [
+      { name: 'Barley', file: 'barley_default_001.png', locked: false },
+      { name: 'Bea', file: 'bea_default_001.png', locked: true },
+      { name: 'Bibi', file: 'bibi_default_001.png', locked: true },
+      { name: 'Bull', file: 'bull_default_001.png', locked: true },
+      { name: 'Crow', file: 'crow_default_001.png', locked: true },
+      { name: 'Dynamike', file: 'dynamike_default_001.png', locked: true },
+      { name: 'El Primo', file: 'el_primo_default_001.png', locked: true },
+      { name: 'Emz', file: 'emz_default_001.png', locked: true },
+      { name: 'Frank', file: 'frank_default_001.png', locked: true },
+      { name: 'Gale', file: 'gale_default_001.png', locked: true },
+      { name: 'Jacky', file: 'jacky_default_001.png', locked: true },
+      { name: 'Jessie', file: 'jessie_default_001.png', locked: true },
+      { name: 'Leon', file: 'leon_default_001.png', locked: true },
+      { name: 'Max', file: 'max_default_001.png', locked: true },
+      { name: 'Mortis', file: 'mortis_default_001.png', locked: true },
+      { name: 'Nani', file: 'nani_default_001.png', locked: true },
+      { name: 'Pam', file: 'pam_default_001.png', locked: true },
+      { name: 'Penny', file: 'penny_default_001.png', locked: true },
+      { name: 'Piper', file: 'piper_default_001.png', locked: true },
+      { name: 'Poco', file: 'poco_default_001.png', locked: true },
+      { name: 'Rico', file: 'rico_default_001.png', locked: true },
+      { name: 'Rosa', file: 'rosa_default_001.png', locked: true },
+      { name: 'Sandy', file: 'sandy_default_001.png', locked: true },
+      { name: 'Spike', file: 'spike_default.png', locked: true },
+      { name: 'Starshelly', file: 'starshelly.png', locked: true }
+    ];
+
+    const menuButtons = document.querySelectorAll('.menu button');
+    const homeView = document.getElementById('home-view');
+    const fightersView = document.getElementById('fighters-view');
+    const grid = document.getElementById('fighters-grid');
+
+    menuButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        menuButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const view = button.dataset.view;
+        homeView.style.display = view === 'home' ? 'block' : 'none';
+        fightersView.style.display = view === 'fighters' ? 'block' : 'none';
+      });
+    });
+
+    function renderFighters() {
+      grid.innerHTML = fighters.map(fighter => `
+        <article class="fighter-card${fighter.locked ? ' locked' : ''}">
+          <img src="${fighter.file}" alt="${fighter.name}">
+          <h3>${fighter.name}</h3>
+          <p>${fighter.locked ? 'Заблоковано' : 'Доступний для гри'}</p>
+        </article>
+      `).join('');
+    }
+
+    renderFighters();
+  </script>
+</body>
+</html>
