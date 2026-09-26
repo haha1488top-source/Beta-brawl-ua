@@ -1,1 +1,886 @@
-<!-- тут буде весь новий HTML-код -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Brawl Stars Beta 1.1714</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #18233a;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 480px;
+    overflow: hidden;
+    color: white;
+    background:
+        radial-gradient(circle at 50% 35%, #4b6f86 0%, #304d62 35%, #1b2b3e 75%, #111b29 100%);
+}
+
+/* Decorative beta background */
+
+.sky {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,0) 30%,
+            rgba(0,0,0,.15) 100%
+        );
+}
+
+.cloud {
+    position: absolute;
+    width: 150px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.10);
+    filter: blur(2px);
+}
+
+.cloud.one {
+    top: 13%;
+    left: -40px;
+}
+
+.cloud.two {
+    top: 25%;
+    right: -60px;
+    transform: scale(.8);
+}
+
+.cloud.three {
+    top: 42%;
+    left: -70px;
+    transform: scale(.65);
+}
+
+/* TOP */
+
+.top {
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    right: 10px;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 3px solid #f0f0f0;
+    background: #536b7e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 18px;
+    box-shadow: 0 3px 0 rgba(0,0,0,.35);
+}
+
+.player-name {
+    background: rgba(10,17,28,.72);
+    border-radius: 7px;
+    padding: 5px 9px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.resources {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.resource {
+    min-width: 82px;
+    height: 25px;
+    border-radius: 7px;
+    background: rgba(10,17,28,.78);
+    border: 1px solid rgba(255,255,255,.2);
+    padding: 3px 8px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+/* CENTRAL BRAWLER */
+
+.brawler-area {
+    position: absolute;
+    top: 88px;
+    left: 0;
+    right: 0;
+    bottom: 275px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.brawler {
+    width: 220px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: idle 2.6s ease-in-out infinite;
+}
+
+@keyframes idle {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.brawler img {
+    max-width: 210px;
+    max-height: 250px;
+    object-fit: contain;
+    image-rendering: auto;
+    filter: drop-shadow(0 10px 4px rgba(0,0,0,.35));
+}
+
+.brawler-placeholder {
+    width: 145px;
+    height: 190px;
+    border-radius: 45% 45% 35% 35%;
+    background: linear-gradient(#dfb178,#b9764d);
+    border: 7px solid #222;
+    box-shadow: 0 12px 0 rgba(0,0,0,.22);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+.brawler-name {
+    margin-top: 5px;
+    font-size: 23px;
+    font-weight: 1000;
+    text-shadow:
+        0 3px 0 #111,
+        2px 0 0 #111,
+        -2px 0 0 #111;
+    letter-spacing: .5px;
+}
+
+/* MODE PANEL */
+
+.mode-panel {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 88px;
+    z-index: 10;
+}
+
+.mode-title {
+    width: fit-content;
+    margin: 0 auto -1px auto;
+    padding: 7px 18px;
+    background: #202c3e;
+    border: 2px solid #101722;
+    border-bottom: none;
+    border-radius: 9px 9px 0 0;
+    font-size: 17px;
+    font-weight: 1000;
+    text-transform: uppercase;
+}
+
+.mode-box {
+    min-height: 90px;
+    border-radius: 12px;
+    border: 3px solid #101722;
+    background: linear-gradient(#49657b,#26394c);
+    box-shadow: 0 5px 0 rgba(0,0,0,.4);
+    display: flex;
+    align-items: center;
+    padding: 9px;
+    gap: 10px;
+}
+
+.mode-icon {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #1a2736;
+    border: 2px solid #101722;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 31px;
+    font-weight: 1000;
+}
+
+.mode-info {
+    flex: 1;
+}
+
+.mode-name {
+    font-size: 20px;
+    font-weight: 1000;
+}
+
+.mode-desc {
+    margin-top: 4px;
+    color: #d5dce3;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.play-button {
+    width: 95px;
+    height: 48px;
+    border: 3px solid #111;
+    border-radius: 10px;
+    background: linear-gradient(#f5c63d,#d48b16);
+    color: white;
+    font-size: 18px;
+    font-weight: 1000;
+    text-shadow: 0 2px 0 #7b4a00;
+    box-shadow: 0 4px 0 #7a4708;
+}
+
+.play-button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #7a4708;
+}
+
+/* BOTTOM NAV */
+
+.bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 78px;
+    background: #182333;
+    border-top: 3px solid #0d141f;
+    display: flex;
+    z-index: 30;
+}
+
+.nav-button {
+    flex: 1;
+    border: 0;
+    border-right: 1px solid rgba(255,255,255,.08);
+    background: transparent;
+    color: #d6dde5;
+    font-size: 11px;
+    font-weight: 1000;
+}
+
+.nav-button:last-child {
+    border-right: none;
+}
+
+.nav-icon {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 2px;
+}
+
+.nav-button:active {
+    background: rgba(255,255,255,.08);
+}
+
+/* SCREENS */
+
+.screen {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    background: linear-gradient(#263b50,#101a28);
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.screen-header {
+    height: 70px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #182638;
+    border-bottom: 3px solid #0d141e;
+}
+
+.screen-header h2 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.close {
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+    border: 2px solid #111;
+    background: #596b7b;
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+/* BRAWLERS */
+
+.roster {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    overflow-y: auto;
+    height: calc(100% - 70px);
+}
+
+.card {
+    min-height: 125px;
+    border-radius: 10px;
+    border: 3px solid #111b28;
+    background: linear-gradient(#4b6578,#293b4d);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 7px;
+    box-shadow: 0 3px 0 rgba(0,0,0,.35);
+}
+
+.card.locked {
+    filter: grayscale(.9);
+    opacity: .75;
+}
+
+.card-avatar {
+    width: 67px;
+    height: 67px;
+    border-radius: 50%;
+    background: #677d8d;
+    border: 3px solid #101820;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 1000;
+}
+
+.card-name {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 1000;
+    text-align: center;
+}
+
+/* SHOP */
+
+.shop-content {
+    padding: 14px;
+    overflow-y: auto;
+    height: calc(100% - 70px);
+}
+
+.offer {
+    border: 3px solid #101722;
+    background: linear-gradient(#4b6579,#293d50);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.offer h3 {
+    margin: 0 0 7px;
+    font-size: 20px;
+}
+
+.offer p {
+    margin: 0 0 12px;
+    color: #dce3e9;
+}
+
+.buy {
+    width: 100%;
+    height: 45px;
+    border-radius: 9px;
+    border: 2px solid #111;
+    background: #e4a927;
+    color: white;
+    font-weight: 1000;
+    font-size: 17px;
+}
+
+/* NEWS */
+
+.news {
+    padding: 15px;
+    overflow-y: auto;
+    height: calc(100% - 70px);
+}
+
+.news-card {
+    background: #31495d;
+    border: 3px solid #101722;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.news-card h3 {
+    margin: 0 0 7px;
+}
+
+.news-card p {
+    margin: 0;
+    line-height: 1.4;
+    color: #d8e0e7;
+}
+
+/* SMALL SCREEN */
+
+@media (max-height: 650px) {
+    .brawler-area {
+        bottom: 245px;
+    }
+
+    .brawler img {
+        max-height: 190px;
+    }
+
+    .mode-box {
+        min-height: 75px;
+    }
+
+    .mode-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .bottom {
+        height: 68px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+    <div class="sky"></div>
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+    <div class="cloud three"></div>
+
+    <!-- MAIN MENU -->
+
+    <div id="mainScreen" class="screen active" style="display:block;background:transparent;border:0;">
+
+        <div class="top">
+
+            <div class="profile">
+                <div class="avatar">S</div>
+                <div class="player-name">Smwdev</div>
+            </div>
+
+            <div class="resources">
+                <div class="resource">🪙 1000</div>
+                <div class="resource">💎 0</div>
+            </div>
+
+        </div>
+
+        <div class="brawler-area">
+
+            <div class="brawler">
+
+                <img
+                    src="Img/barley_default_001.png"
+                    alt="Barley"
+                    onerror="this.style.display='none';document.getElementById('barleyFallback').style.display='flex';"
+                >
+
+                <div id="barleyFallback" class="brawler-placeholder" style="display:none;">
+                    B
+                </div>
+
+                <div class="brawler-name">BARLEY</div>
+
+            </div>
+
+        </div>
+
+        <div class="mode-panel">
+
+            <div id="modeTitle" class="mode-title">
+                GEM GRAB
+            </div>
+
+            <div class="mode-box">
+
+                <div id="modeIcon" class="mode-icon">
+                    ◆
+                </div>
+
+                <div class="mode-info">
+
+                    <div id="modeName" class="mode-name">
+                        Gem Grab
+                    </div>
+
+                    <div id="modeDesc" class="mode-desc">
+                        Collect gems and defeat the enemy team.
+                    </div>
+
+                </div>
+
+                <button class="play-button" onclick="playGame()">
+                    BRAWL!
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="bottom">
+
+            <button class="nav-button" onclick="openScreen('shopScreen')">
+                <span class="nav-icon">▣</span>
+                SHOP
+            </button>
+
+            <button class="nav-button" onclick="openScreen('brawlersScreen')">
+                <span class="nav-icon">★</span>
+                BRAWLERS
+            </button>
+
+            <button class="nav-button" onclick="openScreen('newsScreen')">
+                <span class="nav-icon">!</span>
+                NEWS
+            </button>
+
+            <button class="nav-button" onclick="nextMode()">
+                <span class="nav-icon">⚔</span>
+                MODE
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- BRAWLERS SCREEN -->
+
+    <div id="brawlersScreen" class="screen">
+
+        <div class="screen-header">
+            <h2>BRAWLERS</h2>
+            <button class="close" onclick="closeScreens()">×</button>
+        </div>
+
+        <div class="roster" id="roster"></div>
+
+    </div>
+
+    <!-- SHOP SCREEN -->
+
+    <div id="shopScreen" class="screen">
+
+        <div class="screen-header">
+            <h2>SHOP</h2>
+            <button class="close" onclick="closeScreens()">×</button>
+        </div>
+
+        <div class="shop-content">
+
+            <div class="offer">
+                <h3>BRAWL BOX</h3>
+                <p>Open a box to receive rewards.</p>
+                <button class="buy" onclick="buyBox()">OPEN — 100 COINS</button>
+            </div>
+
+            <div class="offer">
+                <h3>COINS</h3>
+                <p>Your current balance: <b id="shopCoins">1000</b></p>
+                <button class="buy" onclick="addCoins()">+100 COINS</button>
+            </div>
+
+            <div class="offer">
+                <h3>BETA SHOP</h3>
+                <p>Early iOS beta style shop.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- NEWS SCREEN -->
+
+    <div id="newsScreen" class="screen">
+
+        <div class="screen-header">
+            <h2>NEWS</h2>
+            <button class="close" onclick="closeScreens()">×</button>
+        </div>
+
+        <div class="news">
+
+            <div class="news-card">
+                <h3>BRAWL STARS BETA</h3>
+                <p>
+                    Welcome to the early beta-style menu.
+                    This recreation uses a portrait mobile layout.
+                </p>
+            </div>
+
+            <div class="news-card">
+                <h3>VERSION 1.1714</h3>
+                <p>
+                    Original iOS soft-launch era: June 2017.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const brawlers = [
+    "Shelly",
+    "Nita",
+    "Colt",
+    "Dynamike",
+    "El Primo",
+    "Brock",
+    "Jessie",
+    "Bull",
+    "Ricochet",
+    "Barley",
+    "Poco",
+    "Mortis",
+    "Bo",
+    "Spike",
+    "Crow"
+];
+
+const modes = [
+    {
+        title: "GEM GRAB",
+        name: "Gem Grab",
+        icon: "◆",
+        desc: "Collect gems and defeat the enemy team."
+    },
+    {
+        title: "BOUNTY",
+        name: "Bounty",
+        icon: "★",
+        desc: "Defeat opponents and collect stars."
+    },
+    {
+        title: "HEIST",
+        name: "Heist",
+        icon: "◆",
+        desc: "Protect your safe and destroy theirs."
+    },
+    {
+        title: "SHOWDOWN",
+        name: "Showdown",
+        icon: "⚔",
+        desc: "Fight to become the last brawler standing."
+    }
+];
+
+let modeIndex = 0;
+let coins = 1000;
+
+function openScreen(id) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+        screen.style.display = "none";
+    });
+
+    const screen = document.getElementById(id);
+
+    if (screen) {
+        screen.classList.add("active");
+        screen.style.display = "block";
+    }
+
+    if (id === "brawlersScreen") {
+        createRoster();
+    }
+
+    updateCoins();
+}
+
+function closeScreens() {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+        screen.style.display = "none";
+    });
+
+    const main = document.getElementById("mainScreen");
+
+    main.classList.add("active");
+    main.style.display = "block";
+}
+
+function nextMode() {
+
+    modeIndex++;
+
+    if (modeIndex >= modes.length) {
+        modeIndex = 0;
+    }
+
+    updateMode();
+}
+
+function updateMode() {
+
+    const mode = modes[modeIndex];
+
+    document.getElementById("modeTitle").textContent = mode.title;
+    document.getElementById("modeName").textContent = mode.name;
+    document.getElementById("modeIcon").textContent = mode.icon;
+    document.getElementById("modeDesc").textContent = mode.desc;
+}
+
+function createRoster() {
+
+    const roster = document.getElementById("roster");
+
+    roster.innerHTML = "";
+
+    brawlers.forEach((name, index) => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        if (index !== 0) {
+            card.classList.add("locked");
+        }
+
+        card.innerHTML = `
+            <div class="card-avatar">
+                ${name.substring(0, 1)}
+            </div>
+
+            <div class="card-name">
+                ${name}
+            </div>
+        `;
+
+        card.onclick = () => {
+
+            if (index === 0) {
+                alert(name + " selected");
+            } else {
+                alert(name + " is locked");
+            }
+
+        };
+
+        roster.appendChild(card);
+
+    });
+}
+
+function playGame() {
+
+    const mode = modes[modeIndex];
+
+    alert(
+        "BRAWL!\\n\\n" +
+        mode.name +
+        "\\n\\nBeta game simulation"
+    );
+}
+
+function buyBox() {
+
+    if (coins < 100) {
+        alert("Not enough coins.");
+        return;
+    }
+
+    coins -= 100;
+
+    updateCoins();
+
+    alert("BRAWL BOX OPENED!");
+}
+
+function addCoins() {
+
+    coins += 100;
+
+    updateCoins();
+
+    alert("+100 coins");
+}
+
+function updateCoins() {
+
+    document.querySelectorAll(".resource")[0].textContent =
+        "🪙 " + coins;
+
+    const shopCoins = document.getElementById("shopCoins");
+
+    if (shopCoins) {
+        shopCoins.textContent = coins;
+    }
+
+}
+
+updateMode();
+updateCoins();
+
+</script>
+
+</body>
+</html>
